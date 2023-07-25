@@ -13,7 +13,11 @@ import java.util.Optional;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-    @Query(value = "select sum(t.sum) from Transaction t where t.contract.contractId = :contract_id and t.transactionDateTime between :start_date and :end_date")
-    Optional<BigDecimal> getTransactionsSumByDatesAndContractId(@Param("contract_id") int contract_id, @Param("start_date") LocalDateTime startDate, @Param("end_date") LocalDateTime endDate);
+    @Query(value =
+            "select sum(t.sum)" +
+                    " from Transaction t" +
+                    " where t.contract.number = :contract_number and t.transactionDateTime between :start_date and :end_date")
+    Optional<BigDecimal> getTransactionsSumByDatesAndContractId(
+            @Param("contract_number") int contractNumber, @Param("start_date") LocalDateTime startDate, @Param("end_date") LocalDateTime endDate);
 
 }

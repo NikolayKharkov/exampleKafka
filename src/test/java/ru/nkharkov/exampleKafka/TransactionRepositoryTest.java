@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 class TransactionRepositoryTest {
@@ -25,7 +24,8 @@ class TransactionRepositoryTest {
         BigDecimal expected = new BigDecimal("100000");
         LocalDateTime start = LocalDateTime.parse("2023-05-16T15:00:00");
         LocalDateTime end = LocalDateTime.parse("2023-08-20T17:00:00");
-        BigDecimal sum = transactionRepository.getTransactionsSumByDatesAndContractId(1, start, end).orElse(new BigDecimal(0));
+        int contractNUmber = 400500;
+        BigDecimal sum = transactionRepository.getTransactionsSumByDatesAndContractId(contractNUmber, start, end).orElse(BigDecimal.ZERO);
         assertThat(sum).isEqualTo(expected);
     }
 
@@ -34,16 +34,18 @@ class TransactionRepositoryTest {
         BigDecimal expected = new BigDecimal("50000");
         LocalDateTime start = LocalDateTime.parse("2023-05-16T15:00:00");
         LocalDateTime end = LocalDateTime.parse("2023-07-20T17:00:00");
-        BigDecimal sum = transactionRepository.getTransactionsSumByDatesAndContractId(1, start, end).orElse(new BigDecimal(0));
+        int contractNUmber = 400500;
+        BigDecimal sum = transactionRepository.getTransactionsSumByDatesAndContractId(contractNUmber, start, end).orElse(BigDecimal.ZERO);
         assertThat(sum).isEqualTo(expected);
     }
 
     @Test
     void testWhenCorrectBetweenOneDatesButContractNotExist() {
-        BigDecimal expected = new BigDecimal(0);
+        BigDecimal expected = BigDecimal.ZERO;
         LocalDateTime start = LocalDateTime.parse("2023-05-16T15:00:00");
         LocalDateTime end = LocalDateTime.parse("2023-07-20T17:00:00");
-        BigDecimal sum = transactionRepository.getTransactionsSumByDatesAndContractId(3, start, end).orElse(expected);
+        int contractNUmber = 69;
+        BigDecimal sum = transactionRepository.getTransactionsSumByDatesAndContractId(contractNUmber, start, end).orElse(expected);
         assertThat(sum).isEqualTo(expected);
     }
 
